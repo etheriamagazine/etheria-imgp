@@ -1,0 +1,32 @@
+{
+	# debug
+	# log {
+	# 	level debug
+	# }	
+	auto_https off
+	cache {
+		redis
+	}
+}
+
+# https://docs.souin.io/docs/middlewares/caddy/#complex-configuration
+# https://github.com/darkweak/storages/blob/main/redis/caddy/Caddyfile
+
+:8081 {
+	cache {
+		allowed_http_verbs GET
+		ttl 86400s
+		mode bypass_request
+		redis {
+			# https://docs.souin.io/docs/storages/go-redis/#configuration
+			configuration {
+				Addrs {$CACHE_REDIS_ADDRR}
+				Username {$CACHE_REDIS_USERNAME}
+				Password {$CACHE_REDIS_PASSWORD}
+				PoolSize 1000
+				ClientName souin-redis
+			}
+		}
+	}
+	reverse_proxy :8080
+}
