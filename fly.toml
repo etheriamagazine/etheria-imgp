@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for etheria-imgproxy on 2024-09-19T20:45:24+02:00
+# fly.toml app configuration file generated for etheria-imgp on 2024-09-20T16:57:34+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -9,12 +9,8 @@ primary_region = 'mad'
 [build]
 
 [env]
+  CACHE_REDIS_ADDRR = 'fly-etheria-imgp-redis.upstash.io:6379'
   IMGPROXY_TTL = '31536000'
-  CACHE_REDIS_ADDRR = 'fly-etheria-imgp-cache.upstash.io:6379'
-  # use fly secrets sets for
-  # CACHE_REDIS_USERNAME=
-  # CACHE_REDIS_PASSWORD=
-
 
 [http_service]
   internal_port = 8081
