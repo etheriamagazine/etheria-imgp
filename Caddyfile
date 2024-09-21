@@ -20,9 +20,9 @@
 		redis {
 			# https://docs.souin.io/docs/storages/go-redis/#configuration
 			configuration {
-				Addrs {$CACHE_REDIS_ADDRR}
-				Username {$CACHE_REDIS_USERNAME}
-				Password {$CACHE_REDIS_PASSWORD}
+				Addrs {$REDIS_ADDRR}
+				Username {$REDIS_USERNAME}
+				Password {$REDIS_PASSWORD}
 				PoolSize 1000
 				ClientName souin-redis
 			}

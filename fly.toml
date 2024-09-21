@@ -9,7 +9,7 @@ primary_region = 'mad'
 [build]
 
 [env]
-  CACHE_REDIS_ADDRR = 'fly-etheria-imgp-redis.upstash.io:6379'
+  REDIS_ADDRR = 'fly-etheria-imgp-redis.upstash.io:6379'
   IMGPROXY_TTL = '31536000'
 
 [http_service]
