@@ -31,3 +31,34 @@ machines, the setup uses souin's
 access a Redis instance or a [Redis compatible service](https://upstash.com/).
 
 
+## Flush REDIS CACHE
+To flush the Redis cache, you can issue various commands:
+
+To connect to the redis instance:
+```
+fly redis connect
+```
+
+To see a certain key:
+```cmd
+127.0.0.1:16379> keys *telfair*
+1) "GET-http-imgp.etheriamagazine.com-/UVkqh5a2sR64XghbBwsbj13izh_jnRa0aGQGVsHuPp0/rs:fit:1200/plain/https://fotos.etheriamagazine.com/2024/11/heritage-le-telfair-piscina-principal.jpg@avif"
+2) "GET-http-imgp.etheriamagazine.com-/bTRNopc3aj3Mf4PFJYmhXUhbGJ4kNay4hXBrvay0hO4/rs:fit:1200/plain/https://fotos.etheriamagazine.com/2024/11/heritage-le-telfair-JUNIOR-SUITE.jpg@avif"
+```
+
+To remove a single key:
+```
+127.0.0.1:6379> del "GET-http-imgp.etheriamagazine.com-/UVkqh5a2sR64XghbBwsbj13izh_jnRa0aGQGVsHuPp0/rs:fit:1200/plain/https://fotos.etheriamagazine.com/2024/11/heritage-le-telfair-piscina-principal.jpg@avif"
+(integer) 1
+```
+
+To flush some keys matching a pattern using `EVAl` lua script, to make them expire right away.
+```
+127.0.0.1:6379> eval 'for i, name in ipairs(redis.call("KEYS", "*telfair*")) do redis.call("EXPIRE", name, 1); end' 0
+```
+
+To flush all keys:
+```
+127.0.0.1:6379> flushall
+```
+

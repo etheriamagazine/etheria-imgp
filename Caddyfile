@@ -1,24 +1,24 @@
-{
-	# debug
-	# log {
-	# 	level debug
-	# }	
-	auto_https off
-	cache {
-		redis
-	}
-}
-
+# Caddy configuration.
+# Some docs
+# https://caddyserver.com/docs/caddyfile/directives#sorting-algorithm
+# https://caddyserver.com/docs/caddyfile/matchers#expression
 # https://docs.souin.io/docs/middlewares/caddy/#complex-configuration
 # https://github.com/darkweak/storages/blob/main/redis/caddy/Caddyfile
+{
+	# fly.io uses it's own TLS endpoint!
+	auto_https off
 
-:8081 {
+	# global cache directive 
 	cache {
-		allowed_http_verbs GET
-		ttl 86400s
-		mode bypass_request
+		api {
+			# debug
+			# prometeus
+			# souin
+		}
+
+		# redis storage 
+		# See https://docs.souin.io/docs/storages/go-redis/#configuration
 		redis {
-			# https://docs.souin.io/docs/storages/go-redis/#configuration
 			configuration {
 				Addrs {$REDIS_ADDRR}
 				Username {$REDIS_USERNAME}
@@ -28,5 +28,21 @@
 			}
 		}
 	}
+}
+
+:8081 {
+	cache {
+		# default cache ttl,
+		# Please note that proxied responses (like imgproxy) will use Cache-Control 
+		# ttl value as per RFC, not this default value. 
+		# See IMGPROXY_TTL in https://docs.imgproxy.net/configuration/options#server
+		ttl 30s
+
+		allowed_http_verbs GET
+
+		mode bypass_request
+	}
+
+	# proxy to imgproxy server
 	reverse_proxy :8080
 }
